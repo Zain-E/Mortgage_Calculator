@@ -102,7 +102,7 @@ st.markdown(f'Monthly payments **£{round(Loan_payment,2):,}**.')
 st.markdown(f'Of that, interest payments will be **£{round(Interest_payment,2):,}**.')
 st.markdown(f'And principal payments will be **£{round(Principal_payment,2):,}**.')
 st.markdown(f'The monthly early payment limit is **£{round(Early_payment_limit,2):,}** based on a **{round(100*Early_payment_percentage,0):}%** allowance.')
-st.markdown(f'With a loan of **£{round(Loan_amount,2):,}** you will pay **£{round(df_total,2):}**, which is an extra **£{round(extra,0):}**.')
+#st.markdown(f'With a loan of **£{round(Loan_amount,2):,}** you will pay **£{round(df_total,2):}**, which is an extra **£{round(extra,0):}**.')
 
 st.subheader('Graph')
 st.bar_chart(dfgroup)
