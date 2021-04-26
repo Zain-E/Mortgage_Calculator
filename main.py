@@ -92,17 +92,20 @@ df['Loan_amount'] = df['Loan_amount'].apply(lambda x : "{:,}".format(x))
 dfgroup = df.groupby(['year'], as_index=True)[
             'interest_payment'].sum()
 
-df_total = df['Loan_payment'].sum()
-extra = df_total - Loan_amount
+df_total = Loan_amount + df['interest_payment'].sum()
+extra = df['interest_payment'].sum()
+df_total = df_total.astype(int)
+extra = extra.astype(int)
 
 #------------------------------- PRESENTATION -----------------------------------------------------------------------------------
 st.subheader('Summary of Calculations')
 st.markdown(f'With an interest rate of **{round(Interest_rate_text,2)}%** and a house price of **£{round(house_price,0):,}**...')
-st.markdown(f'Monthly payments **£{round(Loan_payment,2):,}**.')
+#st.markdown(f'Monthly payments will be **£{round(Loan_payment,2):,}**.')
+st.markdown(f'Monthly payments will be **£{round(Loan_payment,2):,}**.')
 st.markdown(f'Of that, interest payments will be **£{round(Interest_payment,2):,}**.')
 st.markdown(f'And principal payments will be **£{round(Principal_payment,2):,}**.')
 st.markdown(f'The monthly early payment limit is **£{round(Early_payment_limit,2):,}** based on a **{round(100*Early_payment_percentage,0):}%** allowance.')
-#st.markdown(f'With a loan of **£{round(Loan_amount,2):,}** you will pay **£{round(df_total,2):}**, which is an extra **£{round(extra,0):}**.')
+st.markdown(f'With a loan of **£{round(Loan_amount,2):,}** you will pay **£{df_total:,}**, which is an extra **£{extra:,}**.')
 
 st.subheader('Graph')
 st.bar_chart(dfgroup)
