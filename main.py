@@ -97,7 +97,7 @@ df['Loan_amount'] = df['Loan_amount'].apply(lambda x : "{:,}".format(x))
 #Df aggregated for visualisation
 
 dfgroup = df.groupby(['year'], as_index=True)[
-            'interest_payment'].sum()
+            'interest_payment','Principle_payment'].sum()
 
 df_total = Loan_amount + df['interest_payment'].sum()
 extra = df['interest_payment'].sum()
