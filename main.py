@@ -66,24 +66,31 @@ df['Principle_payment'] = abs(np.ppmt(Interest_rate/payments_per_year, df.index,
 df['Principle_payment'] = round(df['Principle_payment'],0)
 
 #Early Payment
-df['Early payment'] = round(Early_payment,0)
+
+df['Early_payment'] = Early_payment
+
 
 #Total Payment
-df['Loan_payment'] = df["interest_payment"] + df['Principle_payment'] + df['Early payment']
+
+df['Loan_amount_deduction'] = df['Principle_payment'] + df['Early_payment']
 
 #Loan
 Loan_list = [Loan_amount]
 for i in range(len(df)-1):
-    Loan_list.append(Loan_list[-1] - df['Loan_payment'].values[i+1])
+    Loan_list.append(Loan_list[-1] - df['Loan_amount_deduction'].values[i+1])
 
 df['Loan_amount'] = Loan_list
 df['Loan_amount'] = round(df['Loan_amount'],0)
 
 #https://pbpython.com/amortization-model.html
-
 #Truncate the table when balance reaches zero
-last_payment = df.query("Loan_amount <= 0")["Loan_amount"].idxmax(axis=1, skipna=True)
-df = df.loc[0:last_payment]
+last_payment = df.query("Loan_amount <= 0")['Loan_amount']
+try:
+    last_payment = df.query("Loan_amount <= 0")['Loan_amount'].idxmax(axis=1, skipna=True)
+    df = df.loc[0:last_payment]
+except:
+    df = df.loc[0:len(df)]
+
 
 df['Loan_amount'] = df['Loan_amount'].apply(lambda x : "{:,}".format(x))
 
