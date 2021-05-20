@@ -104,6 +104,13 @@ extra = df['interest_payment'].sum()
 df_total = df_total.astype(int)
 extra = extra.astype(int)
 
+#Df aggregated for the yearly dataset
+dfyear = df.groupby(['year'], as_index=False)[
+            'interest_payment','Principle_payment','Early_payment','Loan_amount_deduction','Loan_amount'].sum()
+
+
+
+
 #------------------------------- PRESENTATION -----------------------------------------------------------------------------------
 st.subheader('Summary of Calculations')
 st.markdown(f'With an interest rate of **{round(Interest_rate_text,2)}%** and a house price of **£{round(house_price,0):,}**...')
@@ -117,7 +124,10 @@ st.markdown(f'With a loan of **£{round(Loan_amount,2):,}** you will pay **£{df
 st.subheader('Graph')
 st.bar_chart(dfgroup)
 
-st.subheader('Amortization Schedule')
+st.subheader('Amortization Schedule Monthly')
 st.dataframe(df)
+
+st.subheader('Amortization Schedule Yearly')
+st.dataframe(dfyear)
 
 
