@@ -19,13 +19,15 @@ st.title('Mortgage Calculator')
 st.sidebar.subheader('House Price')
 house_price = st.sidebar.number_input(label=f'Please enter the house price here (£):',value=550000, step=50000)
 st.sidebar.subheader('Deposit')
-deposit = st.sidebar.number_input(label=f'Please enter deposit size here (£):',value=200000, step=10000)
+deposit = st.sidebar.number_input(label=f'Please enter deposit size here (£):',value=210000, step=10000)
 st.sidebar.subheader('Interest Rate')
 Interest_rate_text = st.sidebar.number_input(label=f'Interest Rate (%):',value=1.31, step=0.1)
 st.sidebar.subheader('Term')
 no_of_years = st.sidebar.number_input(label=f'Mortgage Term (years):',value=40, step=1)
 st.sidebar.subheader('Early Payment (Optional)')
 Early_payment = st.sidebar.number_input(label=f'Monthly Early payment amount (£):',value=0, step=100)
+st.sidebar.subheader('Schedule Type')
+radio = st.sidebar.radio(label='', options=['Monthly','Yearly'])
 
 Interest_rate = Interest_rate_text/100
 Loan_amount = house_price - deposit
@@ -124,10 +126,11 @@ st.markdown(f'With a loan of **£{round(Loan_amount,2):,}** you will pay **£{df
 st.subheader('Graph')
 st.bar_chart(dfgroup)
 
-st.subheader('Amortization Schedule Monthly')
-st.dataframe(df)
-
-st.subheader('Amortization Schedule Yearly')
-st.dataframe(dfyear)
+if radio=='Monthly':
+    st.subheader('Amortization Schedule Monthly')
+    st.dataframe(df)
+elif radio=='Yearly':
+    st.subheader('Amortization Schedule Yearly')
+    st.dataframe(dfyear)
 
 
