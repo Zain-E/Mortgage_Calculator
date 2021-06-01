@@ -94,7 +94,7 @@ except:
     df = df.loc[0:len(df)]
 
 
-df['Loan_amount'] = df['Loan_amount'].apply(lambda x : "{:,}".format(x))
+#df['Loan_amount'] = df['Loan_amount'].apply(lambda x : "{:,}".format(x))
 
 #Df aggregated for visualisation
 
@@ -108,10 +108,22 @@ extra = extra.astype(int)
 
 #Df aggregated for the yearly dataset
 dfyear = df.groupby(['year'], as_index=False)[
-            'interest_payment','Principle_payment','Early_payment','Loan_amount_deduction','Loan_amount'].sum()
+            'interest_payment','Principle_payment','Early_payment','Loan_amount_deduction'].sum()
 
+#Group the Loan amount column and find the LAST value in the year
+# The following is, in essence a windowed fucntion that replicates the SQL function Last_value
+dfyear2 = df.loc[df.groupby('year')['Loan_amount'].rank(method ='first') == 1]
+dfyear2 = dfyear2[['year','Loan_amount']]
+#Resets index for joining - and good practice
+dfyear2 = dfyear2.reset_index()
+#When index is reset it creates a Df column with the old one - we will drop this
+dfyear2 = dfyear2.drop('index',axis=1)
 
+#Join the two Dfs together - either on index or year, in this case we can specify year
+dfyearmerge = dfyear.merge(dfyear2, on='year')
+dfyearmerge['Loan_amount'] = dfyearmerge['Loan_amount'].apply(lambda x : "{:,}".format(x))
 
+df['Loan_amount'] = df['Loan_amount'].apply(lambda x : "{:,}".format(x))
 
 #------------------------------- PRESENTATION -----------------------------------------------------------------------------------
 st.subheader('Summary of Calculations')
@@ -131,6 +143,6 @@ if radio=='Monthly':
     st.dataframe(df)
 elif radio=='Yearly':
     st.subheader('Amortization Schedule Yearly')
-    st.dataframe(dfyear)
+    st.dataframe(dfyearmerge)
 
 
