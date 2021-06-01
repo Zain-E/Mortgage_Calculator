@@ -121,8 +121,9 @@ dfyear2 = dfyear2.drop('index',axis=1)
 
 #Join the two Dfs together - either on index or year, in this case we can specify year
 dfyearmerge = dfyear.merge(dfyear2, on='year')
-dfyearmerge['Loan_amount'] = dfyearmerge['Loan_amount'].apply(lambda x : "{:,}".format(x))
 
+#Add commas to the Loan amounts for aesthetic purposes
+dfyearmerge['Loan_amount'] = dfyearmerge['Loan_amount'].apply(lambda x : "{:,}".format(x))
 df['Loan_amount'] = df['Loan_amount'].apply(lambda x : "{:,}".format(x))
 
 #------------------------------- PRESENTATION -----------------------------------------------------------------------------------
