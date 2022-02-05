@@ -21,7 +21,7 @@ house_price = st.sidebar.number_input(label=f'Please enter the house price here 
 st.sidebar.subheader('Deposit')
 deposit = st.sidebar.number_input(label=f'Please enter deposit size here (£):',value=210000, step=10000)
 st.sidebar.subheader('Interest Rate')
-Interest_rate_text = st.sidebar.number_input(label=f'Interest Rate (%):',value=1.65, step=0.1)
+Interest_rate_text = st.sidebar.number_input(label=f'Interest Rate (%):',value=1.62, step=0.1) #3.74% variable rate after 2 years
 st.sidebar.subheader('Term')
 no_of_years = st.sidebar.number_input(label=f'Mortgage Term (years):',value=35, step=1)
 st.sidebar.subheader('Early Payment (Optional)')
