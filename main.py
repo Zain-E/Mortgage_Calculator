@@ -14,7 +14,7 @@ start_date = start_date.strftime("%d/%m/%Y")
 
 
 #-------------------------------STREAM LIT APP----------------------------------------------------------------------------------------------------
-st.title('Mortgage Calculator')
+st.title('30 Lakeside Avenue Mortgage Calculator')
 
 st.sidebar.subheader('House Price')
 house_price = st.sidebar.number_input(label=f'Please enter the house price here (£):',value=585000, step=50000)
