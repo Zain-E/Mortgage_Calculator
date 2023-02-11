@@ -17,7 +17,7 @@ start_date = start_date.strftime("%d/%m/%Y")
 st.title('Mortgage Calculator')
 
 st.sidebar.subheader('House Price')
-house_price = st.sidebar.number_input(label=f'Please enter the house price here (£):',value=550000, step=50000)
+house_price = st.sidebar.number_input(label=f'Please enter the house price here (£):',value=585000, step=50000)
 st.sidebar.subheader('Loan size')
 Loan_amount = st.sidebar.number_input(label=f'Please enter loan size here (£):',value=330000, step=10000)
 st.sidebar.subheader('Interest Rate')
