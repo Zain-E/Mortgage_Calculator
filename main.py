@@ -129,7 +129,7 @@ df['Loan_amount'] = df['Loan_amount'].apply(lambda x : "{:,}".format(x))
 
 #------------------------------- PRESENTATION -----------------------------------------------------------------------------------
 st.subheader('Summary of Calculations')
-st.markdown(f'LTV: **{round(100*LTV,0):}%**')
+st.markdown(f'LTV: **{round(100*LTV,0):}%** , Equity: **£{round(deposit,2):,}**')
 st.markdown(f'With an interest rate of **{round(Interest_rate_text,2)}%** and a house price of **£{round(house_price,0):,}**...')
 #st.markdown(f'Monthly payments will be **£{round(Loan_payment,2):,}**.')
 st.markdown(f'Monthly payments will be **£{round(Loan_payment,2):,}**.')
