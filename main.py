@@ -14,24 +14,25 @@ start_date = start_date.strftime("%d/%m/%Y")
 
 
 #-------------------------------STREAM LIT APP----------------------------------------------------------------------------------------------------
-st.title('30 Lakeside Avenue Mortgage Calculator')
+st.title('Mortgage Calculator')
 
 st.sidebar.subheader('House Price')
-house_price = st.sidebar.number_input(label=f'Please enter the house price here (£):',value=585000, step=50000)
-st.sidebar.subheader('Deposit')
-deposit = st.sidebar.number_input(label=f'Please enter deposit size here (£):',value=210000, step=10000)
+house_price = st.sidebar.number_input(label=f'Please enter the house price here (£):',value=550000, step=50000)
+st.sidebar.subheader('Loan size')
+Loan_amount = st.sidebar.number_input(label=f'Please enter loan size here (£):',value=330000, step=10000)
 st.sidebar.subheader('Interest Rate')
-Interest_rate_text = st.sidebar.number_input(label=f'Interest Rate (%):',value=1.62, step=0.1) #3.74% variable rate after 2 years
+Interest_rate_text = st.sidebar.number_input(label=f'Interest Rate (%):',value=1.31, step=0.1)
 st.sidebar.subheader('Term')
-no_of_years = st.sidebar.number_input(label=f'Mortgage Term (years):',value=35, step=1)
+no_of_years = st.sidebar.number_input(label=f'Mortgage Term (years):',value=40, step=1)
 st.sidebar.subheader('Early Payment (Optional)')
 Early_payment = st.sidebar.number_input(label=f'Monthly Early payment amount (£):',value=0, step=100)
 st.sidebar.subheader('Schedule Type')
 radio = st.sidebar.radio(label='', options=['Monthly','Yearly'])
 
 Interest_rate = Interest_rate_text/100
-Loan_amount = house_price - deposit
+deposit = house_price - Loan_amount
 Early_payment_limit = (Loan_amount*Early_payment_percentage)/payments_per_year
+LTV = Loan_amount / house_price
 
 i = Interest_rate/payments_per_year
 n = payments_per_year * no_of_years
@@ -128,6 +129,7 @@ df['Loan_amount'] = df['Loan_amount'].apply(lambda x : "{:,}".format(x))
 
 #------------------------------- PRESENTATION -----------------------------------------------------------------------------------
 st.subheader('Summary of Calculations')
+st.markdown(f'LTV:{round(100*LTV,0):}')
 st.markdown(f'With an interest rate of **{round(Interest_rate_text,2)}%** and a house price of **£{round(house_price,0):,}**...')
 #st.markdown(f'Monthly payments will be **£{round(Loan_payment,2):,}**.')
 st.markdown(f'Monthly payments will be **£{round(Loan_payment,2):,}**.')
