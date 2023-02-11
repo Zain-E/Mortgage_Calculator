@@ -21,7 +21,7 @@ house_price = st.sidebar.number_input(label=f'Please enter the house price here 
 st.sidebar.subheader('Loan size')
 Loan_amount = st.sidebar.number_input(label=f'Please enter loan size here (£):',value=375000, step=10000)
 st.sidebar.subheader('Interest Rate')
-Interest_rate_text = st.sidebar.number_input(label=f'Interest Rate (%):',value=1.62, step=0.1)
+Interest_rate_text = st.sidebar.number_input(label=f'Interest Rate (%):',value=1.6, step=0.1)
 st.sidebar.subheader('Term')
 no_of_years = st.sidebar.number_input(label=f'Mortgage Term (years):',value=35, step=1)
 st.sidebar.subheader('Early Payment (Optional)')
