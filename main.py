@@ -136,7 +136,7 @@ st.markdown(f'The monthly early payment limit is **£{round(Early_payment_limit,
 st.markdown(f'With a loan of **£{round(Loan_amount,2):,}** you will pay **£{df_total:,}**, which is an extra **£{extra:,}**.')
 
 st.subheader('Graph')
-st.bar_chart(dfgroup)
+st.bar_chart(dfgroup,x='year',y=['interest_payment','Principle_payment','Early_payment'])
 
 if radio=='Monthly':
     st.subheader('Amortization Schedule Monthly')
