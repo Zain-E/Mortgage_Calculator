@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 from datetime import date
@@ -7,23 +6,23 @@ import numpy_financial as np
 #---------------------MORTGAGE CALCULATOR PROJECT (NUMBER 2)-------------------------------------------------------------------------------------
 
 payments_per_year = 12
-#no_of_years = 40
 Early_payment_percentage = 0.1
 start_date = date.today()
 start_date = start_date.strftime("%d/%m/%Y")
 
 
 #-------------------------------STREAM LIT APP----------------------------------------------------------------------------------------------------
+
 st.title('Mortgage Calculator')
 
 st.sidebar.subheader('House Price')
-house_price = st.sidebar.number_input(label=f'Please enter the house price here (£):',value=585000, step=50000)
+house_price = st.sidebar.number_input(label=f'Please enter the house price here (£):',value=585000, step=20000)
 st.sidebar.subheader('Loan size')
 Loan_amount = st.sidebar.number_input(label=f'Please enter loan size here (£):',value=375000, step=10000)
 st.sidebar.subheader('Interest Rate')
 Interest_rate_text = st.sidebar.number_input(label=f'Interest Rate (%):',value=1.6, step=0.1)
 st.sidebar.subheader('Term')
-no_of_years = st.sidebar.number_input(label=f'Mortgage Term (years):',value=35, step=1)
+no_of_years = st.sidebar.number_input(label=f'Mortgage Term (years):',value=33, step=1)
 st.sidebar.subheader('Early Payment (Optional)')
 Early_payment = st.sidebar.number_input(label=f'Monthly Early payment amount (£):',value=0, step=100)
 st.sidebar.subheader('Schedule Type')
@@ -44,8 +43,6 @@ Interest_payment = (Interest_rate/12)*Loan_amount
 # Principal_payment = Loan_payment - Interest_payment
 
 #-------------------------------- INPUT TO DF ----------------------------------------------------------------------------------
-
-
 
 #List of dates to df
 date_range = pd.date_range(start=start_date, periods=no_of_years*12, freq='M')
@@ -69,13 +66,15 @@ df['Principle_payment'] = abs(np.ppmt(Interest_rate/payments_per_year, df.index,
 df['Principle_payment'] = round(df['Principle_payment'],0)
 
 #Early Payment
-
 df['Early_payment'] = Early_payment
 
 
-#Total Payment
-
+#Total Principal Payment deduction
 df['Loan_amount_deduction'] = df['Principle_payment'] + df['Early_payment']
+
+# Total payments inc interest
+df['total_deduction'] = df['interest_payment']+df['Principle_payment']+df['Early_payment']
+df['total_deduction'] = round(df['total_deduction'],0)
 
 #Loan
 Loan_list = [Loan_amount]
@@ -97,10 +96,9 @@ except:
 
 #df['Loan_amount'] = df['Loan_amount'].apply(lambda x : "{:,}".format(x))
 
-#Df aggregated for visualisation
-
-dfgroup = df.groupby(['year'], as_index=True)[
-            'interest_payment','Principle_payment'].sum()
+# df aggregated for visualisation
+dfgroup = df.groupby(['year'], as_index=False)[
+            'interest_payment','Principle_payment','Early_payment','total_deduction'].sum()
 
 df_total = Loan_amount + df['interest_payment'].sum()
 extra = df['interest_payment'].sum()
@@ -129,7 +127,8 @@ df['Loan_amount'] = df['Loan_amount'].apply(lambda x : "{:,}".format(x))
 
 #------------------------------- PRESENTATION -----------------------------------------------------------------------------------
 st.subheader('Summary of Calculations')
-st.markdown(f'LTV: **{round(100*LTV,0):}%** , Equity: **£{round(deposit,2):,}**')
+st.markdown(f'LTV: **{round(100*LTV,0):}%**')
+st.markdown(f'Equity: **£{round(deposit,2):,}**')
 st.markdown(f'With an interest rate of **{round(Interest_rate_text,2)}%** and a house price of **£{round(house_price,0):,}**...')
 #st.markdown(f'Monthly payments will be **£{round(Loan_payment,2):,}**.')
 st.markdown(f'Monthly payments will be **£{round(Loan_payment,2):,}**.')
@@ -139,7 +138,7 @@ st.markdown(f'The monthly early payment limit is **£{round(Early_payment_limit,
 st.markdown(f'With a loan of **£{round(Loan_amount,2):,}** you will pay **£{df_total:,}**, which is an extra **£{extra:,}**.')
 
 st.subheader('Graph')
-st.bar_chart(dfgroup)
+st.bar_chart(dfgroup,x='year',y=['interest_payment','Principle_payment','Early_payment'])
 
 if radio=='Monthly':
     st.subheader('Amortization Schedule Monthly')
@@ -147,5 +146,3 @@ if radio=='Monthly':
 elif radio=='Yearly':
     st.subheader('Amortization Schedule Yearly')
     st.dataframe(dfyearmerge)
-
-
