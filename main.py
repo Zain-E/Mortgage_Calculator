@@ -97,8 +97,7 @@ except:
 #df['Loan_amount'] = df['Loan_amount'].apply(lambda x : "{:,}".format(x))
 
 # df aggregated for visualisation
-dfgroup = df.groupby(['year'], as_index=False)[
-            'interest_payment','Principle_payment','Early_payment','total_deduction'].sum()
+dfgroup = df.groupby(['year'], as_index=False)[['interest_payment','Principle_payment','Early_payment','total_deduction']].sum()
 
 df_total = Loan_amount + df['interest_payment'].sum()
 extra = df['interest_payment'].sum()
@@ -106,8 +105,7 @@ df_total = df_total.astype(int)
 extra = extra.astype(int)
 
 #Df aggregated for the yearly dataset
-dfyear = df.groupby(['year'], as_index=False)[
-            'interest_payment','Principle_payment','Early_payment','Loan_amount_deduction'].sum()
+dfyear = df.groupby(['year'], as_index=False)[['interest_payment','Principle_payment','Early_payment','Loan_amount_deduction']].sum()
 
 #Group the Loan amount column and find the LAST value in the year
 # The following is, in essence a windowed fucntion that replicates the SQL function Last_value
